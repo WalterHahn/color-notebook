@@ -17,3 +17,7 @@ Open `dist/index.html` in your browser.
 ## Test
 
 **randum-colors** uses the Jest testing framework. Run `npm test` to execute all tests.
+
+## Demo
+
+[https://walterhahn.github.io/randum-colors/](https://walterhahn.github.io/randum-colors/)
