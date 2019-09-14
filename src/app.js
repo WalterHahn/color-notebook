@@ -9,7 +9,7 @@ for (var i = 0; i < 5; i++)
   colors.push(new Color().randomize().hex())
 
 document.getElementById('app').innerHTML = template({
-  title: 'randum-colors',
+  title: 'color-notebook',
   colors: colors
 });
 
