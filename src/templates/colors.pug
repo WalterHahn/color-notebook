@@ -1,0 +1,6 @@
+each color,i in colors
+  div.color
+    div(data-color_id=color.color_id, style={ background: "#" + color.hex })
+    span #{color.name}
+div.color(style={ height: "64px" })
+  button#newColor New

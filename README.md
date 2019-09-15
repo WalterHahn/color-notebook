@@ -1,6 +1,8 @@
 # color-notebook
 
-A javascript application that generates random colors.
+A javascript application for storing color information.
+
+**color-notebook** works with an external repository or local storage.  When the application loads, it will `GET /ping` the configured *repo-url*; If status code `200` is returned, the application will continue to use the external repo.  On error, the application will use local storage instead.
 
 # Objective
 

@@ -1,28 +1,78 @@
-import { Color } from './colors';
+import {
+  getColors,
+  getColor,
+  ping,
+  putColor,
+  updateColor,
+  useLocalStorage
+} from './repo';
 
 import './styles/app.scss';
 
-var template = require('./templates/index.pug');
-
-var colors = [];
-for (var i = 0; i < 5; i++)
-  colors.push(new Color().randomize().hex())
-
-document.getElementById('app').innerHTML = template({
-  title: 'color-notebook',
-  colors: colors
+document.getElementById('app').innerHTML = require('./templates/index.pug')({
+  title: 'color-notebook'
 });
 
-Array.from(document.getElementsByClassName('color')).forEach((color) => {
-  color.onclick = (e) => {
-    var hex = new Color().randomize().hex();
-    color.style.background = hex;
-    color.children[0].value = hex;
+function toggleEditor(color) {
+  if (color) {
+    document.getElementById('currentTitle').innerText = color.name;
+    document.getElementById('colorIdInput').value = color.color_id;
+    document.getElementById('hexInput').value = '#' + color.hex;
+    document.getElementById('nameInput').value = color.name;
   }
+  document.getElementById('editor').classList.toggle('hidden');
+}
+
+function loadColors() {
+  getColors()
+    .then((colors) => {
+      document.getElementById('colors').innerHTML = require('./templates/colors.pug')({
+        colors: colors
+      });
+
+      [...document.querySelectorAll('.color')].forEach(function(item) {
+          item.addEventListener('click', (e) => {
+            const colorId = e.target.dataset.color_id;
+            if (colorId)
+              toggleEditor(getColor(colorId));
+          });
+      });
+
+      document.getElementById('newColor').addEventListener('click', () => {
+        putColor('new', '000000')
+          .then(() => { loadColors(); })
+          .catch((err) => console.log(err));
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+document.getElementById('closeEditor').addEventListener('click', (e) => {
+  e.preventDefault();
+  toggleEditor();
 });
 
-Array.from(document.getElementsByTagName('input')).forEach((input) => {
-  input.onclick = (e) => {
-    e.stopPropagation();
-  }
+document.getElementById('editorForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const colorId = document.getElementById('colorIdInput').value;
+  const hex = document.getElementById('hexInput').value;
+  const name = document.getElementById('nameInput').value;
+  updateColor(colorId, name, hex.slice(1, hex.length))
+    .then(() => {
+      loadColors().finally(() => toggleEditor());
+    })
+    .catch(() => {
+      toggleEditor();
+    })
 });
+
+ping()
+  .catch((err) => {
+    console.log(err);
+    useLocalStorage();
+  })
+  .finally(() => {
+    loadColors();
+  });
