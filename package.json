@@ -1,7 +1,7 @@
 {
   "name": "color-notebook",
-  "version": "0.0.1",
-  "description": "A javascript application template.",
+  "version": "0.1.0",
+  "description": "A javascript application for storing color information.",
   "scripts": {
     "test": "jest",
     "build": "webpack --mode production --config webpack.config.js",
