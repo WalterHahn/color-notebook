@@ -24,7 +24,7 @@
     "webpack-cli": "^3.3.7"
   },
   "dependencies": {
-    "pug": "^2.0.4",
-    "randum": "0.0.2"
+    "axios": "^0.19.0",
+    "pug": "^2.0.4"
   }
 }

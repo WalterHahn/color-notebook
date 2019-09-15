@@ -15,6 +15,15 @@ var store = {
 
   set: (key, val) => {
     storage.setItem(key, val);
+  },
+
+  getJSON: (key) => {
+    const val = storage.getItem(key);
+    return (val) ? JSON.parse(val) : null;
+  },
+
+  setJSON: (key, val) => {
+    storage.setItem(key, JSON.stringify(val));
   }
 }
 
